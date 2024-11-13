@@ -1,0 +1,1 @@
+export const selectPalette = (state) => state.config;

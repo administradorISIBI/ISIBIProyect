@@ -1,0 +1,130 @@
+services:
+  # Base de datos
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db  
+      - ./seeders:/docker-entrypoint-initdb.d/
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+    restart: always 
+
+  # Microservicio de universidades
+  universervice:
+    build:
+      context: ./universities-service
+      dockerfile: Dockerfile
+    ports:
+      - "8003:8003"
+    environment:
+      ENV: production  
+    restart: always
+    depends_on:
+      - mongodb
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8003
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # Microservicio de crawling
+  crawler:
+    build:
+      context: ./crawler-service
+      dockerfile: Dockerfile
+    ports:
+      - "8001:8001"
+    environment:
+      ENV: production
+    restart: always
+    depends_on:
+      - mongodb
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8001
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # Microservicio de usuarios
+  usersservice:
+    build:
+      context: ./users-service
+      dockerfile: Dockerfile
+    ports:
+      - "8002:8002"
+    environment:
+      ENV: production
+    restart: always
+    depends_on:
+      - mongodb
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8002
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # Servicio principal
+  main:
+    build:
+      context: ./main-service
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    depends_on:
+      - crawler
+      - universervice
+      - mongodb
+    restart: always
+    env_file:
+      - .env 
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # Balanceador de carga (NGINX)
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "8010:8010"  
+    volumes:
+      - ./nginx.prod.conf:/etc/nginx/nginx.conf  
+    depends_on:
+      - main
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  #Aplicación Front-End
+  app:
+    build:
+      context: ./app
+      dockerfile: Dockerfile.prod
+    environment:
+      - NODE_ENV=production
+    ports:
+      - "80:80"
+    restart: always
+    depends_on:
+      - main
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  mongo_data:
+    driver: local  

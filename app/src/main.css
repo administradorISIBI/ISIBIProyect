@@ -1,0 +1,32 @@
+/* Importa la fuente Roboto desde Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+html, body {
+    margin: 0px !important;
+    padding: 0px !important;
+    font-family: 'Roboto', 'sans-serif';
+}
+*:hover {
+  transition: all 0.3s ease; /* Aplica la transición al estado hover */
+}
+@keyframes slideIn {
+    from {
+      transform: translateX(-100%); /* Comienza fuera del viewport */
+      opacity: 0; /* Comienza invisible */
+    }
+    to {
+      transform: translateX(0); /* Entra completamente al viewport */
+      opacity: 1; /* Se vuelve visible */
+    }
+  }
+  
+  @keyframes slideOut {
+    from {
+      transform: translateX(0); /* Empieza visible */
+      opacity: 1; /* Empieza visible */
+    }
+    to {
+      transform: translateX(-100%); /* Se desliza fuera del viewport */
+      opacity: 0; /* Se vuelve invisible */
+    }
+  }

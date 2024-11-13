@@ -1,0 +1,65 @@
+.footerlogos a:link img{
+    
+}
+
+.footerm{
+    margin: 0 auto;
+    padding: 12px;
+    height: 60px;
+}
+.lineafooter {
+    margin: 0 auto;
+    display: inline-block;
+    text-align: center;
+    padding: 40px 0;
+}
+.customFooterLogos{
+    padding: 40px 0px ;
+    max-width: 1200px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.footerm {
+    margin: 0 auto;
+    padding: 12px;
+    height: 60px;
+    max-width: 100%;
+    vertical-align: middle;
+    border: 0;
+    -ms-interpolation-mode: bicubic;
+    filter: grayscale(100%);
+    -webkit-filter: grayscale(100%);
+}
+.footerLogo{
+    background-color: white;
+    display: flex;
+    justify-content: center;
+}
+.lineafooter a {
+    text-decoration: none;
+}
+img, figure {
+    max-width: 100%;
+    width: auto;
+    height: auto;
+    border: 0;
+    border-radius: 12px;
+    transition: all 0.5s ease-in-out;
+}
+
+a img {
+
+}
+
+.customFooterLogos a img:hover {
+    -webkit-filter: grayscale(0%);
+}
+
+.customFooterLogos a img {
+    overflow-clip-margin: content-box;
+    overflow: clip;
+}
