@@ -15,8 +15,11 @@ const resultsSlice = createSlice({
     setSearching(state, action) {
       state.searching = action.payload;
     },
+    resetSelected() {
+      return state;
+    },
   },
 });
-export const { setSearchParamsState, setSelectedCatalog, setSearching} =
+export const { setSearchParamsState, setSelectedCatalog, setSearching,resetSelected } =
   resultsSlice.actions;
 export default resultsSlice.reducer;

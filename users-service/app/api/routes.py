@@ -51,10 +51,10 @@ def update_user_data(email: str, user_data: UserUpdate, current_user: dict = Dep
         return update_user(email, user_data)
     except HTTPException as e:
         raise e
-    
+
 @router.get("/session/active")
 def check_session_active(authorization: str = Depends(oauth2_scheme)):
-    print("*****************Barer*****************")
-    print(authorization)
+    # print("*****************Barer*****************")
+    # print(authorization)
     is_active = is_user_session_active(authorization)
     return {"active": is_active}

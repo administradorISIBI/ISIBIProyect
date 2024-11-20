@@ -12,10 +12,18 @@ import {
 } from "@mui/material";
 import { setSelectedCatalog } from "@store/results/reducers";
 import { useTheme } from "@mui/material/styles";
+import { selectResults } from "@store/results/selectors";
+const scrollToTop = () => {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  });
+};
 
 const CatalogListResult = () => {
   const theme = useTheme();
   const dispatch = useDispatch();
+  const { catalogSelected } = useSelector(selectResults);
   const { univCatalogs } = useSelector(selectUnivCatalogs);
   const [institutions, setInstitutions] = useState([]);
 
@@ -25,6 +33,7 @@ const CatalogListResult = () => {
   }, [univCatalogs]);
   const handleClickCatalog = (catalogo) => {
     dispatch(setSelectedCatalog(catalogo));
+    scrollToTop();
   };
   return (
     <Paper sx={{ margin: "0 auto", marginTop: 0 }}>
@@ -51,8 +60,10 @@ const CatalogListResult = () => {
                     transform: "scale(1.02)",
                     transition: "all 0.3s ease",
                   },
+                  bgcolor: catalogSelected?.nombre === catalogo.nombre ? theme.palette.secondary.dark: "transparent"
                 }}
                 onClick={() => handleClickCatalog(catalogo)}
+
               >
                 <Box sx={{ marginRight: "10px" }}>
                   <Typography variant="body1">{catalogo.large_name}</Typography>

@@ -70,7 +70,7 @@ export const Search = () => {
           <Button onClick={handleSearch}>Buscar</Button>
           {
             searching ?
-              <Button onClick={handleGoToResults}>Ir a resultados</Button>
+              <Button variant="tertiary" onClick={handleGoToResults}>Ir a resultados</Button>
               :
               null
           }

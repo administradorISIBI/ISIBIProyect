@@ -8,6 +8,14 @@ import ResourceCard from "@components/resourceCard/ResourceCard";
 import { selectFavorites } from "@store/favorites/selectors";
 import { fetchFavorites } from "@store/favorites/actions";
 
+const scrollToTop = () => {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  });
+};
+
+
 const FavoritesPage = () => {
   const dispatch = useDispatch();
   const { favorites, loading } = useSelector(selectFavorites);
@@ -52,6 +60,7 @@ const FavoritesPage = () => {
 
   const handleChangePage = (event, value) => {
     setPage(value);
+    scrollToTop();
   };
 
 

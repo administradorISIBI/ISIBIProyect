@@ -78,7 +78,7 @@ const Catalogs = () => {
 
   useEffect(() => {
     if (Object.keys(univCatalogs).length === 0) {
-      console.log("no hay univCatalogs");
+    //console.log("no hay univCatalogs");
       dispatch(fetchunivCatalogs());
     }
     setAllData(univCatalogs);
@@ -90,13 +90,13 @@ const Catalogs = () => {
       return acc;
     }, {});
     setunivCatalogsStatus(statuses);
-    console.log(statuses);
+  //console.log(statuses);
   }, [univCatalogs]);
 
   const handleStatusChange = (id, event) => {
     const isActive = event.target.checked;
-    console.log(isActive);
-    console.log(id);
+  //console.log(isActive);
+  //console.log(id);
 
     // dispatch(updateFoodType({ id, status }))
     //   .unwrap()

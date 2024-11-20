@@ -86,12 +86,19 @@ const FormCatalogs = () => {
 
     const handleSelectorChange = (e, index) => {
         const { name, value } = e.target;
-        const updatedSelectorsData = [...formData.selectors.selectors_data];
-        updatedSelectorsData[index][name] = value;
-        setFormData({
-            ...formData,
-            selectors: { ...formData.selectors, selectors_data: updatedSelectorsData }
-        });
+    
+        // Crear una copia profunda del objeto `selectors_data`
+        const updatedSelectorsData = formData.selectors.selectors_data.map((selector, i) => 
+            i === index ? { ...selector, [name]: value } : { ...selector }
+        );
+    
+        setFormData(prevState => ({
+            ...prevState,
+            selectors: { 
+                ...prevState.selectors, 
+                selectors_data: updatedSelectorsData 
+            }
+        }));
     };
 
     const addSelector = () => {
@@ -194,7 +201,9 @@ const FormCatalogs = () => {
             }
         });
     }
-
+    const handleCancel = () =>{
+        navigate(-1)
+    }
     return (
         <Paper sx={{ padding: '10px' }}>
             <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -205,7 +214,7 @@ const FormCatalogs = () => {
                 </Box>
                 <Box sx={{ padding: "10px" }}>
                     <Typography variant="h5">
-                        {nombre ? `Editando el catálogo de ${nombre} ` : "Agrega un nuevo catálogo"}
+                        {nombre ? `Editando el catálogo "${formData.large_name}" ` : "Agrega un nuevo catálogo"}
                     </Typography>
                 </Box>
             </Box>
@@ -438,6 +447,9 @@ const FormCatalogs = () => {
                     <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
                         <Button type="submit" color="primary">
                             {univCatalogsLoading ? <CircularProgress size="25px" /> : " Guardar Catálogo"}
+                        </Button>
+                        <Button color="primary" variant='secondary' onClick={handleCancel}>
+                            {univCatalogsLoading ? null : " Cancelar"}
                         </Button>
                     </Grid>
                 </Grid>

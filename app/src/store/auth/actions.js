@@ -33,7 +33,7 @@ export const logoutAction = createAsyncThunk(
   "/logout",
   async (_, { dispatch }) => {
     dispatch(setLoading(true));
-    console.log("logout action");
+  //console.log("logout action");
     try {
       // await post('auth/logout');
       sessionStorage.removeItem("authToken");

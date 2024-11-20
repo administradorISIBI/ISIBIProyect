@@ -53,19 +53,19 @@ export const AdvancedSearchPage = () => {
     bodyRequest.params = params
 
     const concatenatedString = searchParams
-    .map((item, index) => {
-      if (index > 0 && item.condition) {
-        return `${item.condition} ${item.value}`.trim();
-      }
-      return item.value;
-    })
-    .filter(Boolean) 
-    .join(" ");     
+      .map((item, index) => {
+        if (index > 0 && item.condition) {
+          return `${item.condition} ${item.value}`.trim();
+        }
+        return item.value;
+      })
+      .filter(Boolean)
+      .join(" ");
 
     dispatch(searchAdvanced(bodyRequest))
     dispatch(setSearching(true))
-    console.log(searchParams)
-    console.log(concatenatedString)
+  //console.log(searchParams)
+  //console.log(concatenatedString)
     dispatch(setSearchParamsState(concatenatedString))
 
     navigate("/resultados")
@@ -242,7 +242,9 @@ export const AdvancedSearchPage = () => {
       </Box>
       {
         searching ?
-          <Button onClick={handleGoToResults}>Ir a resultados</Button>
+          <Box sx={{display:'flex', justifyContent: 'center'}}>
+            <Button variant="tertiary" onClick={handleGoToResults}>Ir a resultados</Button>
+          </Box>
           :
           null
       }

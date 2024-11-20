@@ -12,6 +12,7 @@ import {AdvancedSearchPage} from "@pages/advancedSearch/AdvancedSearchPage";
 import NotFoundPage from "@pages/notFound/NotFoundPage";
 import CatalogsSystem from "@pages/catalogsSystemAdmin/CatalogsSystem";
 import FormCatalogs from "../components/forms/FormCatalogs";
+import FormUsers from "../components/forms/FormUsers";
 
 const AppRoutes = () => {
   return (

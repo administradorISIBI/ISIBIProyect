@@ -23,6 +23,7 @@ async def get_search_url(request: URLRequest):
 
 @router.post("/search-and-crawl")
 async def search_and_crawl(request: SearchRequest):
+    print(f"**************> ",request.params)
     return await search_university( request.catalog, request.params, request.advanced)
     async def result_streamer():
         tasks = [search_university(university, request.search_param) for university in request.universities]
@@ -118,7 +119,7 @@ async def createSearch(body: dict):
             raise HTTPException(status_code=e.response.status_code, detail=f"HTTP error occurred: {e.response.text}")
 
 @router.get("/users")
-async def getUniversities(authorization: str = Header(None)):
+async def getUsers(authorization: str = Header(None)):
     if not authorization or not authorization.startswith("Bearer "):
         raise HTTPException(status_code=401, detail="Authorization header missing or invalid")
 
@@ -140,6 +141,32 @@ async def getUniversities(authorization: str = Header(None)):
             raise HTTPException(status_code=500, detail=f"An error occurred: {str(e)}")
         except httpx.HTTPStatusError as e:
             raise HTTPException(status_code=e.response.status_code, detail=f"HTTP error occurred: {e.response.text}")
+        
+@router.put("/users/{email}")
+async def getUniversities( body: dict, email: str, authorization: str = Header(None)):
+    if not authorization or not authorization.startswith("Bearer "):
+        raise HTTPException(status_code=401, detail="Authorization header missing or invalid")
+
+    token = authorization.split(" ")[1]  # Extraer el token
+    
+    async with httpx.AsyncClient(timeout=httpx.Timeout(60, connect=60)) as client:
+        try:
+            response = await client.put(
+                f'{os.getenv("USERS_SERVICE")}/users/{email}',
+                headers={"Authorization": f"Bearer {token}"},
+                json=body
+            )
+            response.raise_for_status()  
+            
+            try:
+                return response.json()
+            except ValueError:
+                raise HTTPException(status_code=500, detail="Invalid JSON response")
+        except httpx.RequestError as e:
+            raise HTTPException(status_code=500, detail=f"Main: An error occurred: {str(e)}")
+        except httpx.HTTPStatusError as e:
+            raise HTTPException(status_code=e.response.status_code, detail=f"Main: HTTP error occurred: {e.response.text}")
+    
 
 @router.get("/search/{email}")
 def getSearchs(email: str, authorization: str = Header(None)):

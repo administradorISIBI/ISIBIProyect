@@ -38,14 +38,14 @@ export const fetchUsers = createAsyncThunk(
 
 export const updateUsers = createAsyncThunk(
   "users/updateUser",
-  async ({ id, body }, { rejectWithValue }) => {
+  async (body , { rejectWithValue }) => {
     try {
-      const url = `/ersities/${id}`;
-      console.log(body);
-      const response = await patch(url, body);
-      console.log(response);
+      const url = `/users/${body.email}`;
+    //console.log(body);
+      const response = await put(url, body);
+    //console.log(response);
       if (response.status === 200) {
-        console.log(response);
+      //console.log(response);
         return response.data;
       } else {
         return rejectWithValue(response.data.message);

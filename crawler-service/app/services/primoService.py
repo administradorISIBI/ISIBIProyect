@@ -19,13 +19,13 @@ def crawl_resources_primo(request):
             raise HTTPException(
                 status_code=504, detail="Request timed out. The server took too long to respond.")
         except requests.RequestException as e:
-            print("Error al realizar la petición:", str(e))
-            print(traceback.format_exc())
+            #print("Error al realizar la petición:", str(e))
+            #print(traceback.format_exc())
             raise HTTPException(
                 status_code=500, detail=f"Error al realizar la petición: {str(e)}")
         except Exception as e:
-            print("Error inesperado:", str(e))
-            print(traceback.format_exc())
+            #print("Error inesperado:", str(e))
+            #print(traceback.format_exc())
             raise HTTPException(
                 status_code=500, detail=f"Error inesperado: {str(e)}")
 
@@ -50,10 +50,10 @@ def crawl_resources_primo(request):
                 concatenated_subjects = "".join(subjects)
                 concatenated_types = "".join(types)
 
-                # print(concatenated_titles)
-                # print(concatenated_sources)
-                # print(concatenated_subjects)
-                # print(concatenated_types)
+                # #print(concatenated_titles)
+                # #print(concatenated_sources)
+                # #print(concatenated_subjects)
+                # #print(concatenated_types)
 
                 sort = pnx.get("sort", {})
                 authors = sort.get("author", [])
@@ -61,8 +61,8 @@ def crawl_resources_primo(request):
 
                 concatenated_authors = "".join(authors)
                 concatenated_creationdates = "".join(creationdates)
-                # print(concatenated_authors)
-                # print(concatenated_creationdates)
+                # #print(concatenated_authors)
+                # #print(concatenated_creationdates)
 
                 resource["Titulo"] = concatenated_titles
                 resource["Autor"] = concatenated_authors
@@ -73,7 +73,7 @@ def crawl_resources_primo(request):
                 
                 control = pnx.get("control", {})
                 recordIds = control.get("recordid", ["null"])
-                print(recordIds[0])
+                #print(recordIds[0])
                 if recordIds and recordIds[0] is not None: 
                     with httpx.Client(timeout=httpx.Timeout(60, connect=60)) as client:
                         try:
@@ -96,8 +96,8 @@ def crawl_resources_primo(request):
                 else:
                     return {"university": university_name, "error": "No valid record ID provided"}
                 found_resources.append(resource)
-        else:
-            print("No se encontraron documentos.")
+        # else:
+            #print("No se encontraron documentos.")
         
         return {
             "foundResources": found_resources,

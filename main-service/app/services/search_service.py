@@ -6,8 +6,8 @@ from fastapi import HTTPException
 import os
 
 async def search_university(university_name: str, params, advanced: bool) -> Dict[str, Any]:
-    print(params)
-    print("Request********************", university_name, params, advanced)
+    #print(params)
+    #print("Request********************", university_name, params, advanced)
     
     search_param = params.get("searchParam") if params else None
     if not search_param:
@@ -16,7 +16,7 @@ async def search_university(university_name: str, params, advanced: bool) -> Dic
         # if not isinstance(search_param, str):
         #     raise HTTPException(status_code=400, detail="'search_param' must be a string")
 
-        print("university_name*******************************",university_name)
+        #print("university_name*******************************",university_name)
         async with httpx.AsyncClient(timeout=httpx.Timeout(60, connect=60)) as client:
             
             try:
@@ -37,7 +37,7 @@ async def search_university(university_name: str, params, advanced: bool) -> Dic
             except httpx.HTTPStatusError as e:
                 raise HTTPException(status_code=e.response.status_code, detail=f"HTTP error occurred: {e.response.text}")
     else: 
-        print("************************ADvanced url", f'{os.getenv("CATALOG_SERVICE")}/create-url/adv-url')
+        #print("************************ADvanced url", f'{os.getenv("CATALOG_SERVICE")}/create-url/adv-url')
         async with httpx.AsyncClient(timeout=httpx.Timeout(60, connect=60)) as client:
             try:
                 response = await client.post(
@@ -60,7 +60,7 @@ async def search_university(university_name: str, params, advanced: bool) -> Dic
         raise HTTPException(status_code=400, detail="Can't build URL for this catalog")
 
     university = config_repo.get_university(university_name)
-    print("************************URL a Crawling ", search_url)
+    #print("************************URL a Crawling ", search_url)
     # Obtener la el crawling.
     async with httpx.AsyncClient(timeout=httpx.Timeout(60, connect=60)) as client:
         try:

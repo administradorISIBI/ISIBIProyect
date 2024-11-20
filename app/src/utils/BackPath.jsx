@@ -6,7 +6,7 @@ export const BackPath = () => {
 
     useEffect(() => {
         return () => {
-            console.log('Última ubicación:', location.pathname);
+          //console.log('Última ubicación:', location.pathname);
         };
     }, [location.pathname]);
 

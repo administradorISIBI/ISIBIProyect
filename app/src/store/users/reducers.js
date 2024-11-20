@@ -26,7 +26,7 @@ const usersSlice = createSlice({
       })
       .addCase(updateUsers.fulfilled, (state, action) => {
         const updateUsers = action.payload;
-        console.log(updateUsers)
+      //console.log(updateUsers)
         const index = state.users.findIndex(user => user.nombre === updateUsers.nombre);
         if (index !== -1) {
           state.users[index] = updateUsers;

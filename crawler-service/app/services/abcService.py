@@ -21,17 +21,17 @@ def crawl_resources_abc(request):
         # search_param = remove_accents(search_param)
         
         # decodificar
-        print(search_param)
+        #print(search_param)
         decoded_param = unquote(search_param)
-        print("Decodificado", decoded_param)
+        #print("Decodificado", decoded_param)
         #remover acentos
         search_param = remove_accents(decoded_param)
-        print("Sin acentos",search_param)
+        #print("Sin acentos",search_param)
         request_body = config_repo.get_request_body(university_name)
         selectors = config_repo.get_selectors(university_name)
-        print(selectors)
-        # print("Crawler para catalogo de: ", university_name)
-        # print("request Body: ", request_body)
+        #print(selectors)
+        # #print("Crawler para catalogo de: ", university_name)
+        # #print("request Body: ", request_body)
         # Construcción de la carga útil (payload)
         payload = {
             "IsisScript": "iah.xis",
@@ -62,13 +62,13 @@ def crawl_resources_abc(request):
 
         response = requests.post(url, data=payload)
         if response.status_code != 200:
-            print("Error realizando la petición")
+            #print("Error realizando la petición")
             raise HTTPException(status_code=response.status_code,
                                 detail=f"Request failed with status {response.status_code}")
 
         soup = BeautifulSoup(response.text, 'html.parser')
         containers = soup.select('div div.resultCol')
-        # print(containers[0])
+        # #print(containers[0])
         found_resources = []
         num_results_element = soup.select_one("div:nth-of-type(4) .columnB b")
 
@@ -143,6 +143,6 @@ def crawl_resources_abc(request):
             "universityName": university_name
         }
     except Exception as e:
-        print(e)
+        #print(e)
         raise HTTPException(
             status_code=500, detail=f"An unexpected error occurred: {str(e)}")

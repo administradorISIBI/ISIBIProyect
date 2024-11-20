@@ -215,29 +215,31 @@ const LateralNav = () => {
                   aria-controls="panel1a-content"
                   id="panel1a-header"
                 >
-                  <Typography >Autores</Typography>
+                  <Typography>Desarrolladores</Typography>
                 </AccordionSummary>
-                <AccordionDetails>
+                <AccordionDetails sx={{margin:'0px', padding:'0px'}}>
                   {/* Autor: Diego Agudelo */}
                   <ListItem
                     sx={{ cursor: "pointer" }}
                     onClick={() => window.open("https://www.linkedin.com/in/-diego-agudelo/", "_blank")}
                   >
-                    <ListItemIcon sx={{ minWidth: "30px" }}>
-                      <LinkedInIcon sx={{ fontSize: "20px" }} />
+                    <ListItemIcon sx={{ minWidth: "30px",  p:'0px', margin:'0px'}}>
+                      <LinkedInIcon sx={{ fontSize: "30px", p: '0px'}} />
                     </ListItemIcon>
-                    <ListItemText primary="Diego Agudelo" />
+                    {/* <ListItemText primary="Diego Alejandro Agudelo Rendon" /> */}
+                    <Typography sx={{textAlign:'center', fontSize: "10x"}}>Diego Alejandro Agudelo Rendon</Typography>
                   </ListItem>
 
                   {/* Autor: Jorge Giraldo */}
                   <ListItem
                     sx={{ cursor: "pointer" }}
-                    onClick={() => window.open("https://www.linkedin.com/in/jorge-eliecer-giraldo-plaza-97846b310/", "_blank")}
+                    onClick={() => window.open(" https://www.linkedin.com/in/jorgegiraldophd/", "_blank")}
                   >
-                    <ListItemIcon sx={{ minWidth: "30px" }}>
-                      <LinkedInIcon sx={{ fontSize: "20px" }} />
+                    <ListItemIcon sx={{ minWidth: "30px",  p:'0px', margin:'0px' }}>
+                      <LinkedInIcon sx={{ fontSize: "30px", p: '0px'}} />
                     </ListItemIcon>
-                    <ListItemText primary="Jorge Giraldo" />
+                    <Typography sx={{textAlign:'center', fontSize: "10x"}}>Jorge Eliecer Giraldo Plazas</Typography>
+                    {/* <ListItemText primary="Jorge Eliecer Giraldo Plazas" /> */}
                   </ListItem>
                 </AccordionDetails>
               </Accordion>

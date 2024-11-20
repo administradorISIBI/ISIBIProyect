@@ -22,7 +22,7 @@ async def crawl_resources_primo(request):
         # Ejecutar la función de scraping de manera asíncrona
         html = await scrape(url)
         soup = BeautifulSoup(html, 'html.parser')
-        print(soup.prettify())
+        #print(soup.prettify())
         # Procesar el soup según sea necesario
 
     except Exception as e:

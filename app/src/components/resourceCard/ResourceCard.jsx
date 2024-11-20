@@ -44,6 +44,7 @@ const ResourceCard = ({ data, imagen = null, url = null, parentInfo = null, id }
         },
       };
       const action = await dispatch(createFavorite(newFavorite));
+    //console.log(action)
       if (action.type.endsWith("fulfilled")) {
         Swal.fire({
           title: "¡Satisfactorio!",
@@ -109,14 +110,13 @@ const ResourceCard = ({ data, imagen = null, url = null, parentInfo = null, id }
         <Grid container>
           <Grid item xs={11} onClick={handleCardClick}>
             {Object.entries(dataFields)
-              .filter(([key]) => key.toLowerCase() !== "catalogimage") // Excluir el campo "Link"
+              .filter(([key]) => key.toLowerCase() !== "catalogimage") 
               .map(([key, value], index) => (
                 <Typography key={index} variant="body2" color="textSecondary">
                   <strong>{key.charAt(0).toUpperCase() + key.slice(1)}:</strong> {value}
                 </Typography>
               ))}
           </Grid>
-
           <Grid item xs={1} display="flex" justifyContent="flex-end">
             <IconButton
               onClick={isFavoritesPath ? handleCardDelete : handleCardSave}

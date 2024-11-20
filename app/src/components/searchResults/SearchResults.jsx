@@ -17,6 +17,13 @@ import { useTheme } from "@mui/material/styles";
 import { selectResults } from "@store/results/selectors";
 import { setSelectedCatalog } from "@store/results/reducers";
 
+const scrollToTop = () => {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  });
+};
+
 const SearchResults = () => {
   const theme = useTheme();
   const dispatch = useDispatch();
@@ -50,27 +57,31 @@ const SearchResults = () => {
       setInstitutions(universities);
       setNumRecursos(2);
     }
+    setCurrentPage(1);
+
   }, [catalogSelected]);
 
   const handleResetSelected = () => {
     dispatch(setSelectedCatalog(null));
   };
 
-  // Obtener los recursos que se deben mostrar en la página actual
+  const allLimitedResources = institutions.flatMap((catalog) => {
+    const limitedResources = (catalog.foundResources || []).slice(0, numRecursos);
+    return limitedResources.map((resource) => ({
+      ...resource,
+      parentInfo: catalog,
+    }));
+  });
+  
+  // Aplicar la paginación después de limitar los recursos por universidad
   const indexOfLastResource = currentPage * resourcesPerPage;
   const indexOfFirstResource = indexOfLastResource - resourcesPerPage;
-  const currentResources = institutions
-    .flatMap((catalog) => {
-      return (catalog.foundResources || []).map((resource) => ({
-        ...resource,
-        parentInfo: catalog,
-      }));
-    })
-    .slice(indexOfFirstResource, indexOfLastResource);
+  const currentResources = allLimitedResources.slice(indexOfFirstResource, indexOfLastResource);
 
   // Cambiar de página
   const handlePageChange = (event, value) => {
     setCurrentPage(value);
+    scrollToTop();
   };
 
   return (
@@ -87,7 +98,7 @@ const SearchResults = () => {
       >
         Recursos encontrados
       </Typography>
-      <Box sx={{
+      {/* <Box sx={{
         display: 'flex',
         width: '100%',
         alignContent: 'center',
@@ -110,7 +121,7 @@ const SearchResults = () => {
             </Box>
           </>)
           : ""}
-      </Box>
+      </Box> */}
       <Box
         sx={{
           display: "flex",

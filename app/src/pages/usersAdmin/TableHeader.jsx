@@ -39,7 +39,7 @@ const TableHeader = (props) => {
           justifyContent: "space-between",
         }}
       >
-        <Box
+        {/* <Box
           sx={{
             display: "flex",
             alignItems: "center",
@@ -52,8 +52,8 @@ const TableHeader = (props) => {
           <Button variant="contained" onClick={handleDialogToggle}>
             Activar todos
           </Button>
-        </Box>
-        <Box sx={{ display: "flex", alignItems: "center" }}>
+        </Box> */}
+        {/* <Box sx={{ display: "flex", alignItems: "center" }}>
           <TextField
             size="small"
             value={searchTerm}
@@ -73,7 +73,7 @@ const TableHeader = (props) => {
           <Button variant="contained" color="primary" onClick={handleSearch}>
             Buscar
           </Button>
-        </Box>
+        </Box> */}
       </Box>
     </>
   );

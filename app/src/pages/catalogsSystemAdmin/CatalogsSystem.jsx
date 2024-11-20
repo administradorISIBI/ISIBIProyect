@@ -73,7 +73,7 @@ const CatalogsSystem = () => {
 
   useEffect(() => {
     if (Object.keys(catalogsystems).length === 0) {
-      console.log("no hay catalogsystems");
+    //console.log("no hay catalogsystems");
       dispatch(fetchCatalogSystems());
     }
     setAllData(catalogsystems);
@@ -85,7 +85,7 @@ const CatalogsSystem = () => {
       return acc;
     }, {});
     setcatalogsystemsStatus(statuses);
-    console.log(statuses);
+  //console.log(statuses);
   }, [catalogsystems]);
 
 

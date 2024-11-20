@@ -10,7 +10,7 @@ from app.db.database import get_db
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-SECRET_KEY = os.getenv("JWT_SECRET_KEY", "supersecretkey")
+SECRET_KEY = os.getenv("JWT_SECRET_KEY", "DiegoPapi69")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60
 
@@ -21,7 +21,7 @@ def hash_password(password: str) -> str:
 # Función para verificar contraseñas
 def verify_password(plain_password: str, hashed_password: str) -> bool:
     var=pwd_context.verify(plain_password, hashed_password)
-    print("******************",var)
+    # print("******************",var)
     return var
 
 # Función para crear un token JWT

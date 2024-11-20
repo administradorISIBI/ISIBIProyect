@@ -2,7 +2,7 @@ import { Box, Grid2, IconButton, Typography } from "@mui/material";
 import CatalogListResult from "@components/catalogListResult/CatalogListResult";
 import SearchResults from "@components/searchResults/SearchResults";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { selectResults } from "@store/results/selectors";
 import { useEffect } from "react";
@@ -10,20 +10,20 @@ import { setSearching } from "../../store/results/reducers";
 
 const Resultados = () => {
   const dispatch = useDispatch();
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const { searchParam, searching } = useSelector(selectResults);
 
   useEffect(() => {
     if (!searching) {
-      window.history.back()
+      navigate("/");
     }
   }, [searching])
 
 
   const handleReturn = () => {
     dispatch(setSearching(false))
-    window.history.back()
-    // navigate(-1);
+    // window.history.back()
+    navigate(-1);
   };
   return (
     <>

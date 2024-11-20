@@ -8,17 +8,12 @@ import traceback
 
 def crawl_resources(request):
     try:
-        # Obtener los selectores de la configuración de la universidad
         university_name = request.university_name
         selectors_config = config_repo.get_selectors(university_name)
 
-        # Extraer y transformar los selectores
         selectors_list = selectors_config.get("selectors_data", [])
         selectors = {item['nombre']: item['selector'] for item in selectors_list}
         num_results_selector = selectors_config.get("num_results_element", "h1")
-
-        print("Extrajo los selectores:", selectors)
-        print("Selector de resultados:", num_results_selector)
 
         try:
             response = requests.get(request.url, timeout=30)
@@ -26,49 +21,29 @@ def crawl_resources(request):
         except requests.Timeout:
             raise HTTPException(status_code=504, detail="Request timed out.")
         except requests.RequestException as e:
-            print("Error en la petición:", str(e))
-            print(traceback.format_exc())
             raise HTTPException(status_code=500, detail=f"Error en la petición: {str(e)}")
         except Exception as e:
-            print("Error inesperado:", str(e))
-            print(traceback.format_exc())
             raise HTTPException(status_code=500, detail=f"Error inesperado: {str(e)}")
 
         soup = BeautifulSoup(response.text, 'html.parser')
         containers = soup.select('td.bibliocol')
         found_resources = []
-        print("Recibió la respuesta correctamente")
 
-        # Extraer datos dinámicamente según los selectores configurados
         for idx, container in enumerate(containers, start=1):
             resource = {}
-            print(f"*************************** Recurso #{idx} *********************************")
 
-            # Iterar sobre cada selector dinámico
             for key, selector in selectors.items():
-                print(f"Procesando selector '{key}': {selector}")
                 element = container.select_one(selector)
-                print("Elemento encontrado:", element)
 
-                # Validar si el elemento fue encontrado antes de usar métodos como get_text()
                 if element:
                     if key == "title_link":
-                        # Tratamiento especial para enlaces
                         resource["Link"] = urljoin(request.url, element['href']) if 'href' in element.attrs else "No Link"
                     else:
-                        # Extraer texto y realizar strip si no es None
                         resource[key.capitalize()] = element.get_text(strip=True)
-                #no lo encontró
-                # else:
-                #     resource[key.capitalize()] = None
 
-            # Agregar el recurso si tiene atributos válidos
             if resource:
                 found_resources.append(resource)
-                print("Agregado nuevo recurso:", resource)
 
-        # Extraer el número total de resultados si está configurado
-        print("Extrayendo número total de resultados...")
         num_results_element = soup.select_one(num_results_selector)
         if num_results_element:
             num_results_text = num_results_element.get_text(strip=True)
@@ -87,7 +62,6 @@ def crawl_resources(request):
     except requests.Timeout:
         raise HTTPException(status_code=504, detail="Request timed out.")
     except Exception as e:
-        print("Error inesperado en el procesamiento:", str(e))
         raise HTTPException(status_code=500, detail=f"An unexpected error occurred: {str(e)}")
 
 #con esta función se extraen los ddatos de manera estática
@@ -105,13 +79,13 @@ def crawl_resources(request):
 #             raise HTTPException(
 #                 status_code=504, detail="Request timed out. The server took too long to respond.")
 #         except requests.RequestException as e:
-#             print("Error al realizar la petición:", str(e))
-#             print(traceback.format_exc())
+#             #print("Error al realizar la petición:", str(e))
+#             #print(traceback.format_exc())
 #             raise HTTPException(
 #                 status_code=500, detail=f"Error al realizar la petición: {str(e)}")
 #         except Exception as e:
-#             print("Error inesperado:", str(e))
-#             print(traceback.format_exc())
+#             #print("Error inesperado:", str(e))
+#             #print(traceback.format_exc())
 #             raise HTTPException(
 #                 status_code=500, detail=f"Error inesperado: {str(e)}")
 

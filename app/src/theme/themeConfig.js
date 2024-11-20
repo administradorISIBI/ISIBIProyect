@@ -62,12 +62,21 @@ export const createCustomTheme = (
           }),
           secondary: {
             border: "1px solid #DC2D22",
-            color: "#dc2d22",
-            backgroundColor: "white",
             margin: "5px",
+            color: "#fff",
+            backgroundColor: "#dc2d22",
+            "&:hover": {
+              backgroundColor: "white",
+              color: "#dc2d22",
+            },
+          },
+          tertiary: {
+            border: "1px solid #206c44",
+            backgroundColor: "white",
+            color: "#206c44",
             "&:hover": {
               color: "#fff",
-              backgroundColor: "#dc2d22",
+              backgroundColor: "#206c44",
             },
           },
         },

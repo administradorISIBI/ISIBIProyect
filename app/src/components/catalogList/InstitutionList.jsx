@@ -18,7 +18,7 @@ const InstitutionsList = () => {
   }, [dispatch]);
 
   const handleDelete = (institution) => {
-    console.log("Deleting: ", institution.nombre);
+  //console.log("Deleting: ", institution.nombre);
     dispatch(disableCatalog(institution.nombre));
   };
 

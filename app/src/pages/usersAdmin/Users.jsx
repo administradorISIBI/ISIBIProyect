@@ -12,6 +12,9 @@ import ChangeStatus from "@components/utils/ChangeStatus";
 import { Box, Button, Paper } from "@mui/material";
 import { fetchUsers, updateUsers } from "@store/users/actions";
 import TableHeader from "./TableHeader";
+import EditIcon from '@mui/icons-material/Edit';
+import { useNavigate } from "react-router-dom";
+import FormUsersModal from "../../components/forms/FormUsers";
 
 const defaultColumns = [
   {
@@ -39,6 +42,9 @@ const defaultColumns = [
 
 const Users = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [showModal, setShowModal] = useState(false)
+  const [selectedUser, setSelectedUser] = useState({})
   const { value, setValue, setAllData } = useFilterData([]);
   const [usersStatus, setUsersStatus] = useState({});
   const { users, loading } = useSelector(selectUsers);
@@ -58,7 +64,7 @@ const Users = () => {
   useEffect(() => {
     dispatch(fetchUsers());
     setAllData(users);
-  }, [dispatch,setAllData]);
+  }, [dispatch, setAllData]);
 
   useEffect(() => {
     const statuses = users.reduce((acc, User) => {
@@ -66,20 +72,20 @@ const Users = () => {
       return acc;
     }, {});
     setUsersStatus(statuses);
-    console.log(statuses);
+    //console.log(statuses);
   }, [users]);
 
-  const handleStatusChange = (id, event) => {
+  const handleStatusChange = (email, event) => {
     const isActive = event.target.checked;
-    console.log(isActive);
-    console.log(id);
+    //console.log(isActive);
+    //console.log(id);
 
     // dispatch(updateFoodType({ id, status }))
     //   .unwrap()
     //   .then((payload) => {
     //     setFoodTypeStatus((prevStatuses) => ({ ...prevStatuses, [id]: payload.status }));
     //   });
-    dispatch(updateUsers({ id, body: { status: isActive } }));
+    dispatch(updateUsers({ email, body: { status: isActive } }));
   };
 
   const handleFilter = (searchTerm) => {
@@ -89,6 +95,11 @@ const Users = () => {
 
   const handlePaginationReset = () => setPaginationModel({ page: 0, pageSize: 10 });
 
+  const handleEdit = (user) => {
+    setSelectedUser(user)
+    setShowModal(true)
+  }
+
   const switchColumn = {
     flex: 0.1,
     minWidth: 75,
@@ -96,8 +107,8 @@ const Users = () => {
     headerName: "Estado",
     renderCell: ({ row }) => (
       <ChangeStatus
-        checked={usersStatus[row.nombre]}
-        onChange={(event) => handleStatusChange(row.nombre, event)}
+        checked={usersStatus[row.username]}
+        onChange={(event) => handleStatusChange(row.email, event)}
       />
     ),
   };
@@ -107,15 +118,19 @@ const Users = () => {
     minWidth: 160,
     field: "action",
     headerName: "Acción",
-    renderCell: () => (
+    renderCell: ({ row }) => (
       <Box sx={{ display: "flex", justifyContent: "center" }}>
-        <Button>Editar</Button>
+        <Button onClick={() => handleEdit(row)} startIcon={<EditIcon />}></Button>
       </Box>
     ),
   };
 
   const columns = [switchColumn, ...defaultColumns, accionColumn];
 
+  const handleClose = () => {
+    setShowModal(false)
+    setSelectedUser({})
+  }
   return (
     <>
       <Grid container>
@@ -126,11 +141,11 @@ const Users = () => {
         </Grid>
         <Grid item xs={12}>
           <Paper>
-          <TableHeader value={searchName} handleFilter={handleFilter} paginationReset={handlePaginationReset} />
+            <TableHeader value={searchName} handleFilter={handleFilter} paginationReset={handlePaginationReset} />
             {users && (
               <DataGrid
                 autoHeight
-                rows={paginatedData} 
+                rows={paginatedData}
                 columns={columns}
                 getRowId={(row) => row.username}
                 disableRowSelectionOnClick
@@ -146,6 +161,8 @@ const Users = () => {
           </Paper>
         </Grid>
       </Grid>
+
+      <FormUsersModal open={showModal} onClose={handleClose} user={selectedUser}/>
     </>
   );
 };

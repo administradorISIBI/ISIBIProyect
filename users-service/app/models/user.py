@@ -14,7 +14,8 @@ class UserCreate(BaseModel):
 class UserUpdate(BaseModel):
     username: Optional[str]
     email: Optional[EmailStr]
-    role: Optional[str]  
+    role: Optional[str] 
+    status: Optional[bool] 
     
 class UserResponse(BaseModel):
     success: bool

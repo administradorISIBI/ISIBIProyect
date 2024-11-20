@@ -46,6 +46,6 @@ class ConfigRepository:
     
     def get_all_catalogs(self):
         return self.load_catalogs()  
-print(f'{os.getenv("CATALOG_SERVICE")}/universities',f'{os.getenv("CATALOG_SERVICE")}/sistcatalogs' )
+#print(f'{os.getenv("CATALOG_SERVICE")}/universities',f'{os.getenv("CATALOG_SERVICE")}/sistcatalogs' )
 # Inicialización
 config_repo = ConfigRepository(f'{os.getenv("CATALOG_SERVICE")}/universities', f'{os.getenv("CATALOG_SERVICE")}/sistcatalogs')

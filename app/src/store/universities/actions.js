@@ -2,7 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { get, post, put, patch } from "../apiInstance";
 import { selectUnivCatalogNames, selectUnivCatalogs } from "./selectors";
 import { loadSearch, resetLoading, setIsloading } from "./reducers";
-import { setSearching } from "../results/reducers";
+import { resetSelected, setSearching } from "../results/reducers";
 
 export const fetchunivCatalogs = createAsyncThunk(
   "catalogs/fetchUnivCatalogs",
@@ -20,13 +20,14 @@ export const search = createAsyncThunk(
   "catalogs/search",
   async (searchParams, { getState, rejectWithValue, dispatch }) => {
     try {
-      console.log(searchParams);
+      //console.log(searchParams);
+      resetSelected();
       const state = getState();
       const catalogs = selectUnivCatalogs(state)
         .univCatalogs.filter((univ) => univ.status === true)
         .map((univ) => univ.nombre);
 
-      console.log(catalogs);
+      //console.log(catalogs);
       catalogs.forEach((catalog) => {
         dispatch(setIsloading(catalog));
       });
@@ -46,7 +47,7 @@ export const search = createAsyncThunk(
           params: searchParams.params,
           advanced: searchParams.advanced,
         };
-        console.log(dataSearch);
+        //console.log(dataSearch);
         await post(`/search`, dataSearch);
       }
       const responses = await Promise.all(
@@ -111,7 +112,7 @@ export const searchAdvanced = createAsyncThunk(
           params: searchParams.params,
           advanced: searchParams.advanced,
         };
-        console.log(dataSearch);
+        //console.log(dataSearch);
         await post(`/search`, dataSearch);
       }
 
@@ -153,11 +154,11 @@ export const updateunivCatalog = createAsyncThunk(
   async ({ id, body }, { rejectWithValue }) => {
     try {
       const url = `/universities/${id}`;
-      console.log(body);
+      //console.log(body);
       const response = await patch(url, body);
-      console.log(response);
+      //console.log(response);
       if (response.status === 200) {
-        console.log(response);
+        //console.log(response);
         return response.data;
       } else {
         return rejectWithValue(response.data.message);
@@ -177,7 +178,7 @@ export const setAllCatalogs = createAsyncThunk(
   async (status, { getState, rejectWithValue }) => {
     try {
       const catalogIds = selectUnivCatalogNames(getState());
-      // console.log(catalogIds)
+      // //console.log(catalogIds)
       const updatePromises = catalogIds.map(async (id) => {
         try {
           const url = `/universities/${id}`;
@@ -195,7 +196,7 @@ export const setAllCatalogs = createAsyncThunk(
       });
 
       const results = await Promise.all(updatePromises);
-      console.log(results);
+      //console.log(results);
       return results;
     } catch (error) {
       console.error("Error updating catalogs:", error);
@@ -209,8 +210,8 @@ export const createNewCatalog = createAsyncThunk(
   async (body, { rejectWithValue }) => {
     try {
       const response = await post(`/universities`, body);
-      
-      return response.data
+
+      return response.data;
     } catch (error) {
       console.error("Error creating catalogs:", error);
       return rejectWithValue("An error occurred while creating catalogs");
@@ -223,8 +224,8 @@ export const updateAllCatalog = createAsyncThunk(
   async ({ body, catalogName }, { rejectWithValue }) => {
     try {
       const response = await put(`/universities/${catalogName}`, body);
-      
-      return response.data
+
+      return response.data;
     } catch (error) {
       console.error("Error updating catalogs:", error);
       return rejectWithValue("An error occurred while updating catalogs");

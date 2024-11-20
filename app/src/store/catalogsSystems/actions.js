@@ -32,7 +32,7 @@ export const fetchCatalogSystems = createAsyncThunk(
   async (_, { rejectWithValue, dispatch }) => {
     try {
       const response = await get(`/catalogs-systems`);
-      console.log(response)
+    //console.log(response)
       return response.data;
     } catch (error) {
       return rejectWithValue(handleErrorResponse(error, dispatch));

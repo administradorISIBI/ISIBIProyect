@@ -4,21 +4,20 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
-import AccountCircle from "@mui/icons-material/AccountCircle";
 import PropTypes from "prop-types";
 import { Button } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutAction } from "@store/auth/actions";
 import { Logout } from "@mui/icons-material";
 import Swal from "sweetalert2";
-import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
 import { useTheme } from "@mui/material/styles";
 import { selectPalette } from "@store/config/selectors";
-import { setNight,setNormal } from "@store/config/reducers";
+import { setNight, setNormal } from "@store/config/reducers";
 
 export const MenuAppBar = ({ handleLateralNav, showLateralNav }) => {
   const theme = useTheme();
+  const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { isAuthenticated } = useSelector((state) => state.auth);
@@ -48,9 +47,9 @@ export const MenuAppBar = ({ handleLateralNav, showLateralNav }) => {
   };
 
   const handleChangeTheme = () => {
-    if(status=== 'normal'){
+    if (status === 'normal') {
       dispatch(setNight())
-    }else{
+    } else {
       dispatch(setNormal())
     }
   }
@@ -79,7 +78,7 @@ export const MenuAppBar = ({ handleLateralNav, showLateralNav }) => {
           >
             <MenuIcon />
           </IconButton>
-
+          {/* se puede realizar un breacumb con  {location.pathname.replace(/^\/+/, '')} */}
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Inicio
           </Typography>
